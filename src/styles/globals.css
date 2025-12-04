@@ -1,126 +1,141 @@
 @import 'tailwindcss';
 
+/* ROIpros theme */
 @theme {
-  /* Typography */
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-    'Noto Color Emoji';
+	--font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+		'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-  /* ROIpros brand colors */
-  /* Primary = bright cyan from your logo, used for buttons & accents */
-  --color-primary: #00b3ff;
-  --color-primary-content: #02101f;
+	/* Brand palette tuned to your logo */
+	--roi-blue-900: #050f1b; /* near-black navy */
+	--roi-blue-800: #08182a;
+	--roi-blue-700: #0c2236;
+	--roi-blue-600: #103454;
+	--roi-blue-500: #0f5fa8; /* core logo blue */
+	--roi-blue-400: #1ba6e5; /* lighter accent */
+	--roi-blue-300: #46c7ff;
+	--roi-blue-200: #9fddff;
+	--roi-blue-100: #d3f1ff;
 
-  /* Dark navy background, derived from the darkest tone in the logo */
-  --color-complementary: #071827;
+	/* Tailwind-style color tokens */
+	--color-primary: var(--roi-blue-400); /* used by .btn background logic */
+	--color-primary-content: #f9fafb;
+	--color-complementary: var(--roi-blue-900); /* body background */
 
-  /* Surfaces / cards */
-  --color-surface: #0b2133;
-  --color-surface-soft: #13293e;
-  --color-border-subtle: #23384e;
-  --color-border-strong: #3b4f64;
+	/* Navigation + subtle text */
+	--color-nav: color-mix(in srgb, var(--roi-blue-200) 80%, white 20%);
+	--color-nav-muted: color-mix(in srgb, var(--roi-blue-200) 55%, white 5%);
 
-  /* Nav link colors */
-  --color-nav-link: #e5f1ff;        /* active/hover */
-  --color-nav-link-muted: #8ea6c4;  /* default */
-
-  /* Noise + gradient background (slightly brighter at the top) */
-  --background-image-noise:
-    radial-gradient(circle at top left, #123455 0, transparent 58%),
-    radial-gradient(circle at bottom right, #02101f 0, transparent 60%),
-    url('/images/noise.png');
+	/* Background noise + gradient, slightly brighter top-left for the logo */
+	--background-image-noise:
+		radial-gradient(
+			circle at top left,
+			color-mix(in srgb, var(--roi-blue-600) 80%, white 10%) 0,
+			transparent 55%
+		),
+		radial-gradient(
+			circle at bottom right,
+			color-mix(in srgb, var(--roi-blue-800) 90%, black 10%) 0,
+			transparent 60%
+		),
+		linear-gradient(
+			to bottom,
+			color-mix(in srgb, #020617 60%, var(--roi-blue-900) 40%) 0%,
+			color-mix(in srgb, var(--roi-blue-900) 80%, black 20%) 100%
+		),
+		url('/images/noise.png');
 }
+
+/* ---------- Base typography / elements ---------- */
 
 @layer base {
-  h1 {
-    @apply text-4xl font-bold tracking-tight sm:text-5xl;
-  }
+	h1 {
+		@apply text-4xl font-bold tracking-tight sm:text-5xl;
+	}
 
-  h2 {
-    @apply text-2xl font-bold sm:text-3xl;
-  }
+	h2 {
+		@apply text-2xl font-bold sm:text-3xl;
+	}
 
-  /* Default link style (outside header nav) */
-  a:not(.btn) {
-    @apply underline decoration-primary/60 underline-offset-2 transition;
-  }
+	a:not(.btn) {
+		/* use nav tint for regular links */
+		@apply underline transition;
+		color: var(--color-nav);
+	}
 
-  pre {
-    @apply p-6 overflow-x-auto rounded-lg;
-  }
+	a:not(.btn):hover {
+		color: #ffffff;
+		opacity: 1;
+	}
 
-  :not(pre) > code {
-    @apply px-1 py-0.5 font-mono rounded bg-gray-900 text-primary;
-    font-size: 0.9em;
-  }
+	pre {
+		@apply p-6 overflow-x-auto rounded-lg;
+	}
 
-  /* HEADER NAV LINKS
-     This only targets links inside the <header> nav, so it won’t affect body links. */
-  header nav a {
-    color: var(--color-nav-link-muted);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-  }
-
-  header nav a:hover {
-    color: var(--color-nav-link);
-  }
-
-  header nav a[aria-current='page'],
-  header nav a[data-active='true'] {
-    color: var(--color-nav-link);
-    text-decoration: underline;
-    text-decoration-color: color-mix(
-      in oklab,
-      var(--color-primary) 80%,
-      #ffffff
-    );
-    text-underline-offset: 0.2em;
-  }
+	:not(pre) > code {
+		@apply px-1 py-0.5 font-mono rounded bg-gray-900;
+		color: var(--color-primary);
+		font-size: 0.9em;
+	}
 }
 
+/* ---------- Components ---------- */
+
 @layer components {
-  .markdown {
-    > * {
-      @apply my-6;
-    }
+	/* Markdown text spacing */
+	.markdown {
+		> * {
+			/* slightly tighter than default my-6 */
+			@apply my-4;
+		}
 
-    :where(h1, h2) {
-      @apply mt-12 mb-6;
-    }
+		:where(h1, h2) {
+			@apply mt-10 mb-4;
+		}
 
-    > :first-child {
-      @apply mt-0;
-    }
+		> :first-child {
+			@apply mt-0;
+		}
 
-    > :last-child {
-      @apply mb-0;
-    }
-  }
+		> :last-child {
+			@apply mb-0;
+		}
+	}
 
-  .btn {
-    @apply inline-flex items-center justify-center gap-2 cursor-pointer
-      text-center font-semibold no-underline transition-colors;
+	/* Primary button (used for "Request a CNC Project Quote") */
+	.btn {
+		@apply inline-flex items-center justify-center gap-2 cursor-pointer text-center font-semibold no-underline transition-colors;
+		color: var(--color-primary-content);
+		background-image: linear-gradient(to right, var(--roi-blue-400), var(--roi-blue-600));
+		padding: var(--btn-py, 0.875rem) var(--btn-px, 1.5rem);
+		font-size: var(--btn-font-size, 0.95rem);
+		border-radius: var(--btn-border-radius, 0.5rem);
+		box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+	}
 
-    @apply bg-primary text-primary-content;
+	.btn:hover {
+		background-image: linear-gradient(to right, var(--roi-blue-300), var(--roi-blue-500));
+	}
 
-    padding: var(--btn-py, 0.875rem) var(--btn-px, 1.25rem);
-    font-size: var(--btn-font-size, 0.875rem);
-    border-radius: var(--btn-border-radius, 0.25rem);
+	.btn:disabled {
+		@apply text-gray-400;
+		background-image: none;
+		background-color: #1f2933;
+		box-shadow: none;
+	}
 
-    &:hover {
-      @apply bg-primary/85;
-    }
+	.btn-lg {
+		--btn-font-size: 1.05rem;
+		--btn-px: 1.75rem;
+		--btn-py: 1rem;
+	}
+}
 
-    &:disabled {
-      @apply text-gray-400 bg-gray-700;
-    }
-  }
+/* ---------- Utility: nav text color ---------- */
 
-  .btn-lg {
-    --btn-font-size: 1.125rem;
-    --btn-px: 1.5rem;
-    --btn-py: 1.125rem;
-  }
+.text-nav {
+	color: var(--color-nav);
+}
+
+.text-nav-muted {
+	color: var(--color-nav-muted);
 }
