@@ -1,141 +1,201 @@
 @import 'tailwindcss';
 
-/* ROIpros theme */
+/* ROIpros design tokens */
 @theme {
-	--font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-		'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-	/* Brand palette tuned to your logo */
-	--roi-blue-900: #050f1b; /* near-black navy */
-	--roi-blue-800: #08182a;
-	--roi-blue-700: #0c2236;
-	--roi-blue-600: #103454;
-	--roi-blue-500: #0f5fa8; /* core logo blue */
-	--roi-blue-400: #1ba6e5; /* lighter accent */
-	--roi-blue-300: #46c7ff;
-	--roi-blue-200: #9fddff;
-	--roi-blue-100: #d3f1ff;
+    /* Brand colors */
+    --color-primary: #1f9cf0; /* ROI Blue (buttons, key CTAs) */
+    --color-primary-soft: #39c0ff; /* Lighter ROI blue for gradients */
+    --color-primary-content: #ffffff;
 
-	/* Tailwind-style color tokens */
-	--color-primary: var(--roi-blue-400); /* used by .btn background logic */
-	--color-primary-content: #f9fafb;
-	--color-complementary: var(--roi-blue-900); /* body background */
+    --color-complementary: #050f1c; /* Page background base */
+    --color-surface: #0b1725;       /* Cards / panels */
+    --color-surface-subtle: #111f30;
+    --color-border-subtle: #223047;
 
-	/* Navigation + subtle text */
-	--color-nav: color-mix(in srgb, var(--roi-blue-200) 80%, white 20%);
-	--color-nav-muted: color-mix(in srgb, var(--roi-blue-200) 55%, white 5%);
+    /* Navigation + text accents */
+    --color-nav: #e5edf7;
+    --color-nav-muted: #9fb4d5;
+    --color-nav-hover: #ffffff;
 
-	/* Background noise + gradient, slightly brighter top-left for the logo */
-	--background-image-noise:
-		radial-gradient(
-			circle at top left,
-			color-mix(in srgb, var(--roi-blue-600) 80%, white 10%) 0,
-			transparent 55%
-		),
-		radial-gradient(
-			circle at bottom right,
-			color-mix(in srgb, var(--roi-blue-800) 90%, black 10%) 0,
-			transparent 60%
-		),
-		linear-gradient(
-			to bottom,
-			color-mix(in srgb, #020617 60%, var(--roi-blue-900) 40%) 0%,
-			color-mix(in srgb, var(--roi-blue-900) 80%, black 20%) 100%
-		),
-		url('/images/noise.png');
+    /* Background noise / gradient tuned to ROIpros palette */
+    --background-image-noise:
+        radial-gradient(circle at 0% 0%, rgba(58, 195, 255, 0.35) 0, transparent 55%),
+        radial-gradient(circle at 80% 0%, rgba(31, 156, 240, 0.4) 0, transparent 60%),
+        linear-gradient(to bottom, #071427 0, #040c18 55%, #02060c 100%),
+        url('/images/noise.png');
 }
 
-/* ---------- Base typography / elements ---------- */
-
+/* Global element styling */
 @layer base {
-	h1 {
-		@apply text-4xl font-bold tracking-tight sm:text-5xl;
-	}
+    html {
+        font-family: var(--font-sans);
+        scroll-behavior: smooth;
+    }
 
-	h2 {
-		@apply text-2xl font-bold sm:text-3xl;
-	}
+    body {
+        @apply text-white;
+        background-color: var(--color-complementary);
+    }
 
-	a:not(.btn) {
-		/* use nav tint for regular links */
-		@apply underline transition;
-		color: var(--color-nav);
-	}
+    h1 {
+        @apply text-4xl font-bold tracking-tight sm:text-5xl;
+    }
 
-	a:not(.btn):hover {
-		color: #ffffff;
-		opacity: 1;
-	}
+    h2 {
+        @apply text-2xl font-bold sm:text-3xl;
+    }
 
-	pre {
-		@apply p-6 overflow-x-auto rounded-lg;
-	}
+    a:not(.btn) {
+        /* Default link styling (nav + body links) */
+        color: var(--color-nav-muted);
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
+        text-decoration-thickness: 1px;
+        transition: color 150ms ease, text-decoration-color 150ms ease;
+    }
 
-	:not(pre) > code {
-		@apply px-1 py-0.5 font-mono rounded bg-gray-900;
-		color: var(--color-primary);
-		font-size: 0.9em;
-	}
+    a:not(.btn):hover {
+        color: var(--color-nav-hover);
+        text-decoration-color: var(--color-primary-soft);
+    }
+
+    pre {
+        @apply p-6 overflow-x-auto rounded-lg;
+        background-color: var(--color-surface);
+        border: 1px solid var(--color-border-subtle);
+    }
+
+    :not(pre) > code {
+        @apply px-1 py-0.5 font-mono rounded;
+        background-color: #020617;
+        color: var(--color-primary-soft);
+        font-size: 0.9em;
+    }
 }
 
-/* ---------- Components ---------- */
-
+/* Components & utility-style classes */
 @layer components {
-	/* Markdown text spacing */
-	.markdown {
-		> * {
-			/* slightly tighter than default my-6 */
-			@apply my-4;
-		}
+    /* Markdown content spacing */
+    .markdown {
+        > * {
+            @apply my-6;
+        }
 
-		:where(h1, h2) {
-			@apply mt-10 mb-4;
-		}
+        :where(h1, h2) {
+            @apply mt-12 mb-6;
+        }
 
-		> :first-child {
-			@apply mt-0;
-		}
+        > :first-child {
+            @apply mt-0;
+        }
 
-		> :last-child {
-			@apply mb-0;
-		}
-	}
+        > :last-child {
+            @apply mb-0;
+        }
+    }
 
-	/* Primary button (used for "Request a CNC Project Quote") */
-	.btn {
-		@apply inline-flex items-center justify-center gap-2 cursor-pointer text-center font-semibold no-underline transition-colors;
-		color: var(--color-primary-content);
-		background-image: linear-gradient(to right, var(--roi-blue-400), var(--roi-blue-600));
-		padding: var(--btn-py, 0.875rem) var(--btn-px, 1.5rem);
-		font-size: var(--btn-font-size, 0.95rem);
-		border-radius: var(--btn-border-radius, 0.5rem);
-		box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
-	}
+    /* Primary button */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 cursor-pointer
+            text-center font-semibold no-underline transition-transform
+            focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
 
-	.btn:hover {
-		background-image: linear-gradient(to right, var(--roi-blue-300), var(--roi-blue-500));
-	}
+        /* Colors & shape */
+        color: var(--color-primary-content);
+        background-image: linear-gradient(
+            to right,
+            var(--color-primary),
+            var(--color-primary-soft)
+        );
+        border-radius: var(--btn-border-radius, 0.5rem);
 
-	.btn:disabled {
-		@apply text-gray-400;
-		background-image: none;
-		background-color: #1f2933;
-		box-shadow: none;
-	}
+        /* Sizing tokens */
+        padding: var(--btn-py, 0.875rem) var(--btn-px, 1.5rem);
+        font-size: var(--btn-font-size, 0.9375rem); /* ~15px */
 
-	.btn-lg {
-		--btn-font-size: 1.05rem;
-		--btn-px: 1.75rem;
-		--btn-py: 1rem;
-	}
-}
+        /* Ring uses dark background so it reads well on hero */
+        --tw-ring-color: rgba(59, 130, 246, 0.6);
+        --tw-ring-offset-color: #020617;
+    }
 
-/* ---------- Utility: nav text color ---------- */
+    .btn:hover {
+        filter: brightness(1.06);
+        transform: translateY(-1px);
+    }
 
-.text-nav {
-	color: var(--color-nav);
-}
+    .btn:active {
+        filter: brightness(0.97);
+        transform: translateY(0);
+    }
 
-.text-nav-muted {
-	color: var(--color-nav-muted);
+    .btn:disabled {
+        @apply cursor-not-allowed;
+        background-image: none;
+        background-color: #1e293b;
+        color: #9ca3af;
+        transform: none;
+    }
+
+    .btn-lg {
+        --btn-font-size: 1.0625rem; /* ~17px */
+        --btn-px: 1.75rem;
+        --btn-py: 1.125rem;
+    }
+
+    /* Top gradient + subtle noise background */
+    .bg-noise {
+        background-image: var(--background-image-noise);
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    /* Header / nav helpers */
+    .site-header {
+        @apply flex items-center justify-between gap-6 pt-6 pb-10 sm:pt-10 sm:pb-16;
+    }
+
+    .site-brand {
+        @apply flex items-center gap-3;
+    }
+
+    .brand-text {
+        @apply font-semibold tracking-tight;
+        font-size: 1.0625rem; /* 17px */
+        letter-spacing: 0.02em;
+    }
+
+    .brand-text span:first-child {
+        color: #ffffff; /* ROI */
+    }
+
+    .brand-text span:last-child {
+        color: var(--color-primary-soft); /* pros */
+    }
+
+    .nav-list {
+        @apply flex items-center gap-x-5 gap-y-1 text-sm sm:text-base;
+    }
+
+    .nav-link {
+        @apply inline-block px-1.5 py-1 sm:px-2 sm:py-1.5 font-medium;
+        color: var(--color-nav-muted);
+        text-decoration: none;
+        border-radius: 9999px;
+        transition:
+            color 150ms ease,
+            background-color 150ms ease;
+    }
+
+    .nav-link:hover {
+        color: var(--color-nav-hover);
+        background-color: rgba(15, 23, 42, 0.5);
+    }
+
+    .nav-link--active {
+        color: var(--color-nav);
+        background-color: rgba(15, 23, 42, 0.85);
+    }
 }
