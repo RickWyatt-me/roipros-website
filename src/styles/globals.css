@@ -1,104 +1,126 @@
 @import 'tailwindcss';
 
 @theme {
-    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  /* Typography */
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
 
-    /* ROIpros Brand Colors */
-    --color-primary: #0074b8;          /* ROIpros Blue */
-    --color-primary-content: #ffffff;  /* Text on primary (buttons, badges) */
-    --color-complementary: #0a1a27;    /* Dark navy page background */
+  /* ROIpros brand colors */
+  /* Primary = bright cyan from your logo, used for buttons & accents */
+  --color-primary: #00b3ff;
+  --color-primary-content: #02101f;
 
-    /* Background noise overlay (kept, but now sits over our navy) */
-    --background-image-noise: linear-gradient(
-            to bottom,
-            color-mix(in oklab, var(--color-gray-950) 0%, transparent),
-            color-mix(in oklab, var(--color-gray-950) 100%, transparent)
-        ),
-        url('/images/noise.png');
+  /* Dark navy background, derived from the darkest tone in the logo */
+  --color-complementary: #071827;
+
+  /* Surfaces / cards */
+  --color-surface: #0b2133;
+  --color-surface-soft: #13293e;
+  --color-border-subtle: #23384e;
+  --color-border-strong: #3b4f64;
+
+  /* Nav link colors */
+  --color-nav-link: #e5f1ff;        /* active/hover */
+  --color-nav-link-muted: #8ea6c4;  /* default */
+
+  /* Noise + gradient background (slightly brighter at the top) */
+  --background-image-noise:
+    radial-gradient(circle at top left, #123455 0, transparent 58%),
+    radial-gradient(circle at bottom right, #02101f 0, transparent 60%),
+    url('/images/noise.png');
 }
 
 @layer base {
-    h1 {
-        @apply text-4xl font-bold tracking-tight sm:text-5xl;
-    }
+  h1 {
+    @apply text-4xl font-bold tracking-tight sm:text-5xl;
+  }
 
-    h2 {
-        @apply text-2xl font-bold sm:text-3xl;
-    }
+  h2 {
+    @apply text-2xl font-bold sm:text-3xl;
+  }
 
-    /* Brand link styling (non-button links) */
-    a:not(.btn) {
-        @apply text-primary underline-offset-2 decoration-1 transition;
-    }
+  /* Default link style (outside header nav) */
+  a:not(.btn) {
+    @apply underline decoration-primary/60 underline-offset-2 transition;
+  }
 
-    a:not(.btn):hover {
-        @apply underline opacity-80;
-    }
+  pre {
+    @apply p-6 overflow-x-auto rounded-lg;
+  }
 
-    pre {
-        @apply p-6 overflow-x-auto rounded-lg;
-    }
+  :not(pre) > code {
+    @apply px-1 py-0.5 font-mono rounded bg-gray-900 text-primary;
+    font-size: 0.9em;
+  }
 
-    :not(pre) > code {
-        @apply px-1 py-0.5 font-mono rounded bg-gray-900 text-primary;
-        font-size: 0.9em;
-    }
+  /* HEADER NAV LINKS
+     This only targets links inside the <header> nav, so it won’t affect body links. */
+  header nav a {
+    color: var(--color-nav-link-muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  header nav a:hover {
+    color: var(--color-nav-link);
+  }
+
+  header nav a[aria-current='page'],
+  header nav a[data-active='true'] {
+    color: var(--color-nav-link);
+    text-decoration: underline;
+    text-decoration-color: color-mix(
+      in oklab,
+      var(--color-primary) 80%,
+      #ffffff
+    );
+    text-underline-offset: 0.2em;
+  }
 }
 
 @layer components {
-    .markdown {
-        > * {
-            @apply my-6;
-        }
-
-        :where(h1, h2) {
-            @apply mt-12 mb-6;
-        }
-
-        > :first-child {
-            @apply mt-0;
-        }
-
-        > :last-child {
-            @apply mb-0;
-        }
+  .markdown {
+    > * {
+      @apply my-6;
     }
 
-    .btn {
-        @apply inline-flex items-center justify-center gap-2 cursor-pointer text-center font-semibold no-underline transition-colors;
-
-        /* Use theme colors as a fallback… */
-        @apply text-primary-content;
-
-        /* …then apply our custom ROIpros gradient + shape */
-        padding: var(--btn-py, 0.875rem) var(--btn-px, 1.25rem);
-        font-size: var(--btn-font-size, 0.875rem);
-        border-radius: var(--btn-border-radius, 0.75rem);
-
-        background-image: linear-gradient(135deg, #0074b8, #11c9d9);
-        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
-        transform: translateY(0);
+    :where(h1, h2) {
+      @apply mt-12 mb-6;
     }
 
-    .btn:hover {
-        filter: brightness(1.08);
-        transform: translateY(-1px);
+    > :first-child {
+      @apply mt-0;
     }
 
-    .btn:active {
-        filter: brightness(0.97);
-        transform: translateY(0);
+    > :last-child {
+      @apply mb-0;
+    }
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 cursor-pointer
+      text-center font-semibold no-underline transition-colors;
+
+    @apply bg-primary text-primary-content;
+
+    padding: var(--btn-py, 0.875rem) var(--btn-px, 1.25rem);
+    font-size: var(--btn-font-size, 0.875rem);
+    border-radius: var(--btn-border-radius, 0.25rem);
+
+    &:hover {
+      @apply bg-primary/85;
     }
 
-    .btn:disabled {
-        @apply text-gray-400 bg-gray-700;
-        box-shadow: none;
-        cursor: not-allowed;
+    &:disabled {
+      @apply text-gray-400 bg-gray-700;
     }
+  }
 
-    .btn-lg {
-        --btn-font-size: 1.125rem;
-        --btn-px: 1.5rem;
-        --btn-py: 1.125rem;
-    }
+  .btn-lg {
+    --btn-font-size: 1.125rem;
+    --btn-px: 1.5rem;
+    --btn-py: 1.125rem;
+  }
 }
