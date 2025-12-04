@@ -2,29 +2,36 @@
 import Logo from '../components/Logo.astro';
 
 const navItems = [
-    { linkText: 'Home', href: '/' },
-    { linkText: 'Revalidation', href: '/revalidation' },
-    { linkText: 'Image CDN', href: '/image-cdn' },
-    { linkText: 'Edge Function', href: '/edge' },
-    { linkText: 'Blobs', href: '/blobs' }
+  { linkText: 'Home', href: '/' },
+  { linkText: 'Services', href: '/services' },
+  { linkText: 'Portfolio', href: '/portfolio' },
+  { linkText: 'Quote', href: '/quote' }
 ];
 ---
 
-<nav class="flex flex-wrap items-center gap-4 pt-6 pb-16 sm:pt-12 sm:pb-24">
-    <a href="/">
-        <Logo />
+<header class="w-full">
+  <nav class="flex items-center justify-between py-6 sm:py-7">
+    
+    <!-- Logo -->
+    <a href="/" class="flex items-center">
+      <Logo />
     </a>
-    {
-        !!navItems?.length && (
-            <ul class="flex flex-wrap gap-x-4 gap-y-1">
-                {navItems.map((item) => (
-                    <li>
-                        <a href={item.href} class="inline-block px-1.5 py-1 sm:px-3 sm:py-2">
-                            {item.linkText}
-                        </a>
-                    </li>
-                ))}
-            </ul>
-        )
-    }
-</nav>
+
+    <!-- Navigation Links -->
+    {navItems?.length > 0 && (
+      <ul class="flex items-center gap-4 sm:gap-6">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="px-1.5 py-1 text-sm sm:text-base font-medium transition-colors"
+            >
+              {item.linkText}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+    
+  </nav>
+</header>
