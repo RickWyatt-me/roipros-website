@@ -1,0 +1,135 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/shop/ProductCard.astro';
+
+const products = [
+  {
+    id: 'cnc-flatwork',
+    title: 'Precision CNC Flatwork',
+    subtitle: 'Panels, fixtures & production runs',
+    price: 'Quoted per project',
+    imageUrl: '/images/products/cnc-flatwork.jpg',
+    href: '/store/cnc-flatwork',
+    tags: ['CNC Routing', 'Production', 'Custom'],
+    badge: 'Made to order',
+    summary:
+      'Large-format 49" × 97" cutting with ±0.002" repeatability for hardwoods, plywood, MDF, plastics and more.'
+  },
+  {
+    id: 'rotary-4th-axis',
+    title: '4th Axis Rotary Machining',
+    subtitle: '40" length · 4" max diameter',
+    price: 'Quoted per project',
+    imageUrl: '/images/products/rotary-axis.jpg',
+    href: '/store/rotary-axis',
+    tags: ['Rotary', 'Multi-sided', '3D Carving'],
+    badge: 'New',
+    summary:
+      'Multi-sided milling and complex 3D carving on a 4-axis rotary with up to 40" length and 4" diameter workpieces.'
+  },
+  {
+    id: 'laser-cut-engrave',
+    title: '45W Laser Cutting & Engraving',
+    subtitle: 'PLH3D-XT8 laser head',
+    price: 'Quoted per project',
+    imageUrl: '/images/products/laser-xt8.jpg',
+    href: '/store/laser-cut-engrave',
+    tags: ['Laser', 'Engraving', 'Cutting'],
+    badge: 'High detail',
+    summary:
+      '45W blue-diode laser for precision engraving and cutting, ideal for detailed 2D/3D graphics and fine text on wood and more.'
+  },
+  {
+    id: 'prototypes',
+    title: 'Prototypes & One-off Builds',
+    subtitle: 'Fast iteration for designers & founders',
+    price: 'Starting at $295',
+    imageUrl: '/images/products/prototypes.jpg',
+    href: '/store/prototypes',
+    tags: ['Prototyping', 'Startup', 'One-off'],
+    badge: 'Popular',
+    summary:
+      'Short-run parts and proof-of-concept builds with tight tolerances and clear communication at every step.'
+  },
+  {
+    id: 'production-runs',
+    title: 'Batch & Production Runs',
+    subtitle: 'Consistent parts, repeatable results',
+    price: 'Volume pricing',
+    imageUrl: '/images/products/production-runs.jpg',
+    href: '/store/production-runs',
+    tags: ['Production', 'Fixtures', 'Repeat work'],
+    badge: 'Best value',
+    summary:
+      'Dialed-in setups for recurring orders where consistency, repeatability and packaging matter.'
+  }
+];
+---
+
+<Layout title="Store – ROIpros">
+  <main class="mx-auto max-w-6xl px-6 pb-20 pt-10 sm:px-8 sm:pt-14">
+    <!-- Page header -->
+    <header class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-300/80">
+          ROIpros Store
+        </p>
+        <h1 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+          Shop precision CNC & laser services
+        </h1>
+        <p class="mt-3 max-w-2xl text-sm text-slate-200/85 sm:text-base">
+          From flat panel work to 4-axis rotary machining and 45W laser cutting, you get
+          production-grade parts with ±0.002&quot; accuracy and clear communication from start to finish.
+        </p>
+      </div>
+
+      <!-- Simple “filter” bar (non-interactive for now, but UX-ready) -->
+      <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm">
+        <span class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-slate-200/80">
+          All services
+        </span>
+        <span class="rounded-full border border-transparent bg-black/10 px-3 py-1 text-slate-300/80">
+          CNC Routing
+        </span>
+        <span class="rounded-full border border-transparent bg-black/10 px-3 py-1 text-slate-300/80">
+          Rotary 4th Axis
+        </span>
+        <span class="rounded-full border border-transparent bg-black/10 px-3 py-1 text-slate-300/80">
+          Laser
+        </span>
+      </div>
+    </header>
+
+    <!-- Subtle divider -->
+    <div class="mt-8 h-px w-full bg-gradient-to-r from-white/10 via-white/5 to-transparent" />
+
+    <!-- Product grid -->
+    <section class="mt-8">
+      <div class="flex items-center justify-between gap-4 text-xs text-slate-300/80 sm:text-sm">
+        <p>
+          Showing <span class="font-semibold">{products.length}</span> service offerings
+        </p>
+        <p class="hidden sm:block">
+          Don’t see what you need? <a href="/quote" class="underline">Request a custom quote</a>.
+        </p>
+      </div>
+
+      <div
+        class="mt-5 grid gap-5 sm:mt-7 sm:gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
+        {products.map((product) => (
+          <ProductCard {...product} />
+        ))}
+      </div>
+
+      <!-- Mobile helper CTA under grid -->
+      <div class="mt-10 rounded-xl border border-white/10 bg-black/20 px-4 py-4 text-sm text-slate-200/85 sm:hidden">
+        Not sure where to start?{' '}
+        <a href="/quote" class="font-semibold underline">
+          Tell us about your project
+        </a>{' '}
+        and we’ll recommend a path.
+      </div>
+    </section>
+  </main>
+</Layout>
