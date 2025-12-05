@@ -2,133 +2,183 @@
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/shop/ProductCard.astro';
 
+const activeCategory = Astro.url.searchParams.get('category') ?? 'all';
+
+const filters = [
+  { label: 'All services', value: 'all' },
+  { label: 'CNC Routing', value: 'cnc-routing' },
+  { label: 'Rotary 4th Axis', value: 'rotary' },
+  { label: 'Laser', value: 'laser' }
+];
+
+// Temporary “products” – later these can come from Shopify
 const products = [
   {
-    id: 'cnc-flatwork',
+    handle: 'precision-cnc-flatwork',
     title: 'Precision CNC Flatwork',
-    subtitle: 'Panels, fixtures & production runs',
-    price: 'Quoted per project',
-    imageUrl: '/images/products/cnc-flatwork.jpg',
-    href: '/store/cnc-flatwork',
-    tags: ['CNC Routing', 'Production', 'Custom'],
+    subtitle: 'Sheet goods, hardwoods, templates, fixtures, and production panels.',
     badge: 'Made to order',
-    summary:
-      'Large-format 49" × 97" cutting with ±0.002" repeatability for hardwoods, plywood, MDF, plastics and more.'
+    badgeTone: 'default',
+    category: 'cnc-routing',
+    priceLabel: 'Quoted per project',
+    statusLabel: 'In stock',
+    statusTone: 'in-stock',
+    href: '/quote',
+    imageSrc: '/images/store/cnc-flatwork.jpg'
   },
   {
-    id: 'rotary-4th-axis',
+    handle: '4th-axis-rotary-machining',
     title: '4th Axis Rotary Machining',
-    subtitle: '40" length · 4" max diameter',
-    price: 'Quoted per project',
-    imageUrl: '/images/products/rotary-axis.jpg',
-    href: '/store/rotary-axis',
-    tags: ['Rotary', 'Multi-sided', '3D Carving'],
+    subtitle:
+      'Up to 40" length and 4" diameter for multi-sided milling and complex 3D work.',
     badge: 'New',
-    summary:
-      'Multi-sided milling and complex 3D carving on a 4-axis rotary with up to 40" length and 4" diameter workpieces.'
+    badgeTone: 'accent',
+    category: 'rotary',
+    priceLabel: 'Quoted per project',
+    statusLabel: 'In stock',
+    statusTone: 'in-stock',
+    href: '/quote',
+    imageSrc: '/images/store/rotary-axis.jpg'
   },
   {
-    id: 'laser-cut-engrave',
+    handle: '45w-laser-cutting-engraving',
     title: '45W Laser Cutting & Engraving',
-    subtitle: 'PLH3D-XT8 laser head',
-    price: 'Quoted per project',
-    imageUrl: '/images/products/laser-xt8.jpg',
-    href: '/store/laser-cut-engrave',
-    tags: ['Laser', 'Engraving', 'Cutting'],
+    subtitle:
+      'PLH3D-XT8 laser head, 45W optical power, 0.18mm spot for fine engraving and cutting.',
     badge: 'High detail',
-    summary:
-      '45W blue-diode laser for precision engraving and cutting, ideal for detailed 2D/3D graphics and fine text on wood and more.'
+    badgeTone: 'accent',
+    category: 'laser',
+    priceLabel: 'Quoted per project',
+    statusLabel: 'In stock',
+    statusTone: 'in-stock',
+    href: '/quote',
+    imageSrc: '/images/store/laser.jpg'
   },
   {
-    id: 'prototypes',
-    title: 'Prototypes & One-off Builds',
-    subtitle: 'Fast iteration for designers & founders',
-    price: 'Starting at $295',
-    imageUrl: '/images/products/prototypes.jpg',
-    href: '/store/prototypes',
-    tags: ['Prototyping', 'Startup', 'One-off'],
+    handle: 'prototype-fixtures',
+    title: 'Prototype Jigs & Fixtures',
+    subtitle: 'Low-run production jigs, vacuum fixtures, and workholding solutions.',
     badge: 'Popular',
-    summary:
-      'Short-run parts and proof-of-concept builds with tight tolerances and clear communication at every step.'
+    badgeTone: 'default',
+    category: 'cnc-routing',
+    priceLabel: 'Starting at $325',
+    statusLabel: 'Made to order',
+    statusTone: 'made-to-order',
+    href: '/quote',
+    imageSrc: '/images/store/fixtures.jpg'
   },
   {
-    id: 'production-runs',
-    title: 'Batch & Production Runs',
-    subtitle: 'Consistent parts, repeatable results',
-    price: 'Volume pricing',
-    imageUrl: '/images/products/production-runs.jpg',
-    href: '/store/production-runs',
-    tags: ['Production', 'Fixtures', 'Repeat work'],
-    badge: 'Best value',
-    summary:
-      'Dialed-in setups for recurring orders where consistency, repeatability and packaging matter.'
+    handle: 'production-routing',
+    title: 'Production Routing Runs',
+    subtitle: 'Tight-tolerance production routing with ±0.002" accuracy and QC checks.',
+    badge: 'For teams',
+    badgeTone: 'default',
+    category: 'cnc-routing',
+    priceLabel: 'Volume-based pricing',
+    statusLabel: 'In stock',
+    statusTone: 'in-stock',
+    href: '/quote',
+    imageSrc: '/images/store/production.jpg'
   }
 ];
+
+const filteredProducts =
+  activeCategory === 'all'
+    ? products
+    : products.filter((p) => p.category === activeCategory);
+
+const activeFilterLabel =
+  filters.find((f) => f.value === activeCategory)?.label ?? 'All services';
 ---
 
-<Layout title="Store – ROIpros">
-  <main class="mx-auto max-w-6xl px-6 pb-20 pt-10 sm:px-8 sm:pt-14">
-    <!-- Page header -->
-    <header class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-      <div>
-        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-300/80">
-          ROIpros Store
-        </p>
-        <h1 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-          Shop precision CNC & laser services
+<Layout title="ROlpros Store – CNC & laser services">
+  <main class="bg-noise">
+    <section class="mx-auto max-w-7xl px-6 pb-20 pt-10 sm:pt-16 sm:pb-24">
+      <!-- Page eyebrow -->
+      <p class="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-slate-300/80">
+        ROIPROS STORE
+      </p>
+
+      <!-- Main heading -->
+      <div class="mt-3 max-w-3xl">
+        <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
+          Shop precision CNC &amp; laser services
         </h1>
-        <p class="mt-3 max-w-2xl text-sm text-slate-200/85 sm:text-base">
-          From flat panel work to 4-axis rotary machining and 45W laser cutting, you get
-          production-grade parts with ±0.002&quot; accuracy and clear communication from start to finish.
-        </p>
       </div>
 
-      <!-- Simple “filter” bar (non-interactive for now, but UX-ready) -->
-      <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm">
-        <span class="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-slate-200/80">
-          All services
-        </span>
-        <span class="rounded-full border border-transparent bg-black/10 px-3 py-1 text-slate-300/80">
-          CNC Routing
-        </span>
-        <span class="rounded-full border border-transparent bg-black/10 px-3 py-1 text-slate-300/80">
-          Rotary 4th Axis
-        </span>
-        <span class="rounded-full border border-transparent bg-black/10 px-3 py-1 text-slate-300/80">
-          Laser
-        </span>
-      </div>
-    </header>
-
-    <!-- Subtle divider -->
-    <div class="mt-8 h-px w-full bg-gradient-to-r from-white/10 via-white/5 to-transparent" />
-
-    <!-- Product grid -->
-    <section class="mt-8">
-      <div class="flex items-center justify-between gap-4 text-xs text-slate-300/80 sm:text-sm">
+      <!-- Lead copy -->
+      <div class="mt-4 max-w-2xl space-y-2 text-sm text-slate-200/90 sm:text-base">
         <p>
-          Showing <span class="font-semibold">{products.length}</span> service offerings
+          From flat panel work to 4-axis rotary machining and 45W laser cutting, you get
+          production-grade parts with ±0.002" accuracy, clean edges, and clear communication
+          from start to finish.
         </p>
-        <p class="hidden sm:block">
-          Don’t see what you need? <a href="/quote" class="underline">Request a custom quote</a>.
+        <p class="text-slate-300/80">
+          Whether you&apos;re a builder, fabricator, sign shop, or product designer, ROIpros
+          plugs into your workflow like a modern, on-demand manufacturing partner.
         </p>
       </div>
 
-      <div
-        class="mt-5 grid gap-5 sm:mt-7 sm:gap-6 md:grid-cols-2 lg:grid-cols-3"
-      >
-        {products.map((product) => (
-          <ProductCard {...product} />
+      <!-- Filter row + helper link -->
+      <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <!-- Filters -->
+        <div class="inline-flex flex-wrap gap-2 rounded-full bg-black/10 px-1.5 py-1 ring-1 ring-white/10">
+          {filters.map((filter) => {
+            const isActive = filter.value === activeCategory;
+            return (
+              <a
+                href={filter.value === 'all' ? '/store' : `/store?category=${filter.value}`}
+                class={`inline-flex items-center rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
+                  isActive
+                    ? 'bg-white text-slate-950'
+                    : 'text-slate-200/85 hover:bg-white/10 hover:text-white'
+                }`}
+              >
+                {filter.label}
+              </a>
+            );
+          })}
+        </div>
+
+        <p class="text-xs text-slate-300/85 sm:text-sm">
+          Don’t see what you need?{' '}
+          <a href="/quote" class="underline underline-offset-4 hover:text-white">
+            Request a custom quote.
+          </a>
+        </p>
+      </div>
+
+      <!-- Active filter status -->
+      <div class="mt-5 text-xs font-medium uppercase tracking-[0.16em] text-slate-400/85">
+        Showing {filteredProducts.length} service offering
+        {filteredProducts.length === 1 ? '' : 's'} · {activeFilterLabel}
+      </div>
+
+      <!-- Product grid -->
+      <div class="mt-6 grid gap-6 sm:mt-8 sm:grid-cols-2 xl:grid-cols-3">
+        {filteredProducts.map((product) => (
+          <ProductCard
+            title={product.title}
+            subtitle={product.subtitle}
+            badge={product.badge}
+            badgeTone={product.badgeTone}
+            priceLabel={product.priceLabel}
+            statusLabel={product.statusLabel}
+            statusTone={product.statusTone}
+            href={product.href}
+            imageSrc={product.imageSrc}
+            imageAlt={product.title}
+          />
         ))}
       </div>
 
-      <!-- Mobile helper CTA under grid -->
-      <div class="mt-10 rounded-xl border border-white/10 bg-black/20 px-4 py-4 text-sm text-slate-200/85 sm:hidden">
-        Not sure where to start?{' '}
-        <a href="/quote" class="font-semibold underline">
-          Tell us about your project
-        </a>{' '}
-        and we’ll recommend a path.
+      <!-- Subtle footer note -->
+      <div class="mt-10 max-w-2xl text-xs text-slate-400/80 sm:text-[0.78rem]">
+        <p>
+          All services are currently quoted per project. When your Shopify backend is live,
+          this storefront can be wired directly to live product data, inventory, and checkout
+          while keeping the same ROIpros look and feel.
+        </p>
       </div>
     </section>
   </main>
