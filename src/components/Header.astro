@@ -12,19 +12,13 @@ const navItems = [
 <header class="w-full">
   <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 sm:py-10">
     
-    <!-- Logo + Text -->
+    <!-- Logo + Text (no hover / no underline) -->
     <a href="/" class="flex items-center gap-3 no-underline hover:no-underline">
       <Logo class="h-10 w-auto" />
 
       <span class="flex items-baseline gap-1 select-none">
-        <!-- ROI: slightly larger, heavier, theme blue -->
-        <span class="font-bold text-[1.4rem] leading-none text-roiBlue">
-          ROI
-        </span>
-        <!-- pros: slightly smaller, white -->
-        <span class="font-medium text-[1.35rem] leading-none text-white">
-          pros
-        </span>
+        <span class="font-bold text-[1.4rem] leading-none text-roiBlue">ROI</span>
+        <span class="font-medium text-[1.35rem] leading-none text-white">pros</span>
       </span>
     </a>
 
@@ -42,5 +36,57 @@ const navItems = [
       ))}
     </ul>
 
+    <!-- Mobile Hamburger -->
+    <button
+      type="button"
+      class="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-navlink hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-roiBlue/80 focus:ring-offset-transparent"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+      data-menu-toggle
+    >
+      <!-- Simple hamburger icon -->
+      <span class="block h-[2px] w-5 rounded-full bg-navlink"></span>
+      <span class="mt-1 block h-[2px] w-5 rounded-full bg-navlink"></span>
+      <span class="mt-1 block h-[2px] w-5 rounded-full bg-navlink"></span>
+    </button>
   </nav>
+
+  <!-- Mobile Nav Panel -->
+  <div
+    class="sm:hidden px-6 pb-6"
+    id="mobile-nav"
+    data-menu-panel
+  >
+    <ul class="flex flex-col gap-3 rounded-lg bg-black/15 px-4 py-4 backdrop-blur-sm">
+      {navItems.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class="block text-base text-navlink hover:text-white transition-colors"
+          >
+            {item.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
 </header>
+
+<script type="module">
+  // Simple client-side toggle for the mobile menu
+  if (typeof window !== 'undefined') {
+    const toggle = document.querySelector('[data-menu-toggle]');
+    const panel = document.querySelector('[data-menu-panel]');
+
+    if (toggle && panel) {
+      // Start hidden on load
+      panel.classList.add('hidden');
+
+      toggle.addEventListener('click', () => {
+        const isHidden = panel.classList.contains('hidden');
+        panel.classList.toggle('hidden', !isHidden);
+        toggle.setAttribute('aria-expanded', String(isHidden));
+      });
+    }
+  }
+</script>
