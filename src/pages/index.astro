@@ -39,35 +39,59 @@ import Layout from '../layouts/Layout.astro';
           </button>
         </div>
 
-     <!-- Partner Logos – horizontal scroll -->
-<div class="mt-12">
-  <h3 class="text-sm uppercase tracking-[0.18em] text-slate-300/80 mb-4">
-    Who We Partner With
-  </h3>
+     <!-- Partner logo marquee -->
+<div class="mt-10 space-y-3">
+  <p class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-300/80">
+    Who we partner with
+  </p>
 
-  <div class="relative">
-    <div class="flex gap-6 overflow-x-auto no-scrollbar py-4 px-1">
-      <!-- Example partner cards — replace logos later -->
-      <div class="flex-shrink-0 w-32 h-20 rounded-md bg-white/5 border border-white/10 flex items-center justify-center">
-        <img src="/partners/logo1.png" alt="Partner 1" class="h-10 opacity-80" />
+  <div class="relative overflow-hidden rounded-xl border border-white/5 bg-black/10">
+    <div class="flex gap-4 px-4 py-4 animate-partner-marquee">
+      <!-- Duplicate the sequence once so the marquee can loop seamlessly -->
+      <!-- Set 1 -->
+      <div class="partner-card">
+        <span class="partner-pill">Partner 1</span>
       </div>
-      <div class="flex-shrink-0 w-32 h-20 rounded-md bg-white/5 border border-white/10 flex items-center justify-center">
-        <img src="/partners/logo2.png" alt="Partner 2" class="h-10 opacity-80" />
+      <div class="partner-card">
+        <span class="partner-pill">Partner 2</span>
       </div>
-      <div class="flex-shrink-0 w-32 h-20 rounded-md bg-white/5 border border-white/10 flex items-center justify-center">
-        <img src="/partners/logo3.png" alt="Partner 3" class="h-10 opacity-80" />
+      <div class="partner-card">
+        <span class="partner-pill">Partner 3</span>
       </div>
-      <div class="flex-shrink-0 w-32 h-20 rounded-md bg-white/5 border border-white/10 flex items-center justify-center">
-        <img src="/partners/logo4.png" alt="Partner 4" class="h-10 opacity-80" />
+      <div class="partner-card">
+        <span class="partner-pill">Partner 4</span>
       </div>
-      <div class="flex-shrink-0 w-32 h-20 rounded-md bg-white/5 border border-white/10 flex items-center justify-center">
-        <img src="/partners/logo5.png" alt="Partner 5" class="h-10 opacity-80" />
+      <div class="partner-card">
+        <span class="partner-pill">Partner 5</span>
       </div>
-      <div class="flex-shrink-0 w-32 h-20 rounded-md bg-white/5 border border-white/10 flex items-center justify-center">
-        <img src="/partners/logo6.png" alt="Partner 6" class="h-10 opacity-80" />
+      <div class="partner-card">
+        <span class="partner-pill">Partner 6</span>
       </div>
-      <div class="flex-shrink-0 w-32 h-20 rounded-md bg-white/5 border border-white/10 flex items-center justify-center">
-        <img src="/partners/logo7.png" alt="Partner 7" class="h-10 opacity-80" />
+      <div class="partner-card">
+        <span class="partner-pill">Partner 7</span>
+      </div>
+
+      <!-- Set 2 (exact copy of Set 1 for infinite loop) -->
+      <div class="partner-card">
+        <span class="partner-pill">Partner 1</span>
+      </div>
+      <div class="partner-card">
+        <span class="partner-pill">Partner 2</span>
+      </div>
+      <div class="partner-card">
+        <span class="partner-pill">Partner 3</span>
+      </div>
+      <div class="partner-card">
+        <span class="partner-pill">Partner 4</span>
+      </div>
+      <div class="partner-card">
+        <span class="partner-pill">Partner 5</span>
+      </div>
+      <div class="partner-card">
+        <span class="partner-pill">Partner 6</span>
+      </div>
+      <div class="partner-card">
+        <span class="partner-pill">Partner 7</span>
       </div>
     </div>
   </div>
