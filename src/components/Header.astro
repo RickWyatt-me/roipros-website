@@ -10,20 +10,28 @@ const navItems = [
 ---
 
 <header class="w-full">
-  <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 sm:py-10">
-    
-    <!-- Logo + Text (no hover / no underline) -->
-    <a href="/" class="flex items-center gap-3 no-underline hover:no-underline">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 sm:py-8">
+    <!-- Logo + Text (no underline, no hover) -->
+    <a
+      href="/"
+      class="flex items-center gap-3 no-underline hover:no-underline"
+    >
       <Logo class="h-10 w-auto" />
 
       <span class="flex items-baseline gap-1 select-none">
-        <span class="font-bold text-[1.4rem] leading-none text-roiBlue">ROI</span>
-        <span class="font-medium text-[1.35rem] leading-none text-white">pros</span>
+        <!-- ROI = slightly bolder + blue -->
+        <span class="font-semibold text-[1.4rem] leading-none text-roiBlue">
+          ROI
+        </span>
+        <!-- pros = white, a hair lighter -->
+        <span class="font-medium text-[1.35rem] leading-none text-white">
+          pros
+        </span>
       </span>
     </a>
 
-    <!-- Desktop Nav -->
-    <ul class="hidden sm:flex items-center gap-8">
+    <!-- Desktop Nav (md and up) -->
+    <ul class="hidden md:flex items-center gap-8">
       {navItems.map((item) => (
         <li>
           <a
@@ -36,33 +44,41 @@ const navItems = [
       ))}
     </ul>
 
-    <!-- Mobile Hamburger -->
+    <!-- Mobile hamburger (below md) -->
     <button
       type="button"
-      class="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-navlink hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-roiBlue/80 focus:ring-offset-transparent"
+      class="md:hidden inline-flex items-center justify-center rounded-md border border-white/10 px-3 py-2 text-sm font-medium text-navlink hover:text-white hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-roiBlue focus:ring-offset-2 focus:ring-offset-transparent"
       aria-label="Toggle navigation"
-      aria-expanded="false"
       data-menu-toggle
     >
-      <!-- Simple hamburger icon -->
-      <span class="block h-[2px] w-5 rounded-full bg-navlink"></span>
-      <span class="mt-1 block h-[2px] w-5 rounded-full bg-navlink"></span>
-      <span class="mt-1 block h-[2px] w-5 rounded-full bg-navlink"></span>
+      <!-- simple hamburger icon -->
+      <svg
+        class="h-5 w-5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
     </button>
   </nav>
 
-  <!-- Mobile Nav Panel -->
+  <!-- Mobile menu panel -->
   <div
-    class="sm:hidden px-6 pb-6"
-    id="mobile-nav"
-    data-menu-panel
+    id="mobile-menu"
+    class="md:hidden hidden px-6 pb-4"
   >
-    <ul class="flex flex-col gap-3 rounded-lg bg-black/15 px-4 py-4 backdrop-blur-sm">
+    <ul class="space-y-2 border-t border-white/10 pt-4">
       {navItems.map((item) => (
         <li>
           <a
             href={item.href}
-            class="block text-base text-navlink hover:text-white transition-colors"
+            class="block rounded-md px-3 py-2 text-base font-medium text-navlink hover:text-white hover:bg-white/5"
           >
             {item.text}
           </a>
@@ -70,23 +86,16 @@ const navItems = [
       ))}
     </ul>
   </div>
-</header>
 
-<script type="module">
-  // Simple client-side toggle for the mobile menu
-  if (typeof window !== 'undefined') {
-    const toggle = document.querySelector('[data-menu-toggle]');
-    const panel = document.querySelector('[data-menu-panel]');
+  <!-- Tiny vanilla JS to toggle mobile menu -->
+  <script>
+    const btn = document.querySelector('[data-menu-toggle]');
+    const menu = document.getElementById('mobile-menu');
 
-    if (toggle && panel) {
-      // Start hidden on load
-      panel.classList.add('hidden');
-
-      toggle.addEventListener('click', () => {
-        const isHidden = panel.classList.contains('hidden');
-        panel.classList.toggle('hidden', !isHidden);
-        toggle.setAttribute('aria-expanded', String(isHidden));
+    if (btn && menu) {
+      btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
       });
     }
-  }
-</script>
+  </script>
+</header>
