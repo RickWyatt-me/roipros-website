@@ -202,3 +202,29 @@
 .no-underline {
   text-decoration: none !important;
 }
+@layer components {
+  .partner-card {
+    @apply flex h-20 w-40 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-slate-900/40;
+  }
+
+  .partner-pill {
+    @apply inline-flex items-center rounded-full border border-white/15 bg-black/40 px-4 py-1 text-xs font-medium text-slate-100;
+  }
+}
+
+@layer utilities {
+  .animate-partner-marquee {
+    animation: partner-marquee 35s linear infinite;
+  }
+}
+
+/* Keyframes for the auto-scrolling marquee */
+@keyframes partner-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Move left by half the width because we duplicated the content */
+    transform: translateX(-50%);
+  }
+}
