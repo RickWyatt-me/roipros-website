@@ -1,36 +1,22 @@
----
-import Logo from '../components/Logo.astro';
-
-const navItems = [
-  { text: 'Home', href: '/' },
-  { text: 'Services', href: '/services' },
-  { text: 'Portfolio', href: '/portfolio' },
-  { text: 'Quote', href: '/quote' }
-];
----
-
 <header class="w-full">
   <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 sm:py-10">
     
     <!-- Logo + Text -->
-    <a
-      href="/"
-      class="flex items-center gap-3 no-underline hover:no-underline hover:opacity-100"
-    >
+    <a href="/" class="flex items-center gap-3 no-underline hover:no-underline">
       <Logo class="h-10 w-auto" />
 
       <span class="flex items-baseline gap-1 select-none">
-  <span class="font-bold text-[1.4rem] leading-none text-roiBlue">ROI</span>
-  <span class="font-medium text-[1.35rem] leading-none text-white">pros</span>
-</span>
+        <span class="font-bold text-[1.4rem] leading-none text-roiBlue">ROI</span>
+        <span class="font-medium text-[1.35rem] leading-none text-white">pros</span>
+      </span>
     </a>
 
     <!-- Desktop Nav -->
     <ul class="hidden sm:flex items-center gap-8">
       {navItems.map((item) => (
         <li>
-          <a
-            href={item.href}
+          <a 
+            href={item.href} 
             class="text-navlink hover:text-white transition-colors"
           >
             {item.text}
